@@ -11,7 +11,7 @@ RUN /usr/local/bin/install-plugins.sh \
 kubernetes:0.8                        \
 workflow-aggregator:2.4               \
 credentials-binding:1.9               \
-git:3.0.0                             \
+git:3.0.1                             \
 ldap:1.13                             \
 gerrit-trigger:2.23.0
 
