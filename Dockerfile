@@ -14,5 +14,11 @@ RUN /usr/local/bin/install-plugins.sh   \
     gerrit-trigger                      \
     google-login
 
-RUN mkdir -p /usr/share/jenkins/ref/secrets/
-RUN echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch
+COPY operations /opt/kaigara/operations
+COPY resources /etc/kaigara/resources
+
+RUN mkdir -p /usr/share/jenkins/ref/secrets/ \
+     && echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch
+
+ENTRYPOINT ["kaigara"]
+CMD ["start", "jenkins.sh"]

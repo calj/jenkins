@@ -1,0 +1,25 @@
+#!groovy
+
+import jenkins.model.*
+import hudson.security.*
+import org.jenkinsci.plugins.googlelogin.GoogleOAuth2SecurityRealm
+
+def instance = Jenkins.getInstance()
+
+{{ if eq .auth.type "local" }}
+println "--> creating local user '{{ .auth.adminUser }}'"
+def hudsonRealm = new HudsonPrivateSecurityRealm(false)
+hudsonRealm.createAccount('''{{ .auth.adminUser }}''','''{{ .auth.adminPassword }}''')
+instance.setSecurityRealm(hudsonRealm)
+
+{{ else if eq .auth.type "google-oauth" }}
+def googleRealm = new GoogleOAuth2SecurityRealm('''{{ .auth.clientId }}''', '''{{ .auth.clientSecret }}''', '''{{ .auth.domains }}''')
+instance.setSecurityRealm(googleRealm)
+
+{{ else }}
+println "Unknown auth type {{ .auth.type }}"
+{{ end }}
+
+def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
+instance.setAuthorizationStrategy(strategy)
+instance.save()

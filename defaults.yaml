@@ -1,0 +1,4 @@
+auth:
+  type: local
+  adminUser: admin
+  adminPassword: changeme
